@@ -132,15 +132,23 @@
                   <input type="email" placeholder="Your Email Address" class="bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-purple-500 transition">
               </div>
 
-              <div class="flex flex-col">
-                  <label class="text-xs text-gray-400 uppercase mb-1 ml-1">Date</label>
-                  <input type="date" class="bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-purple-500 transition">
-              </div>
+              <div class="flex flex-col relative group">
+                <label class="text-xs text-gray-400 uppercase mb-1 ml-1">Date</label>
+                <div class="relative cursor-pointer" onclick="this.querySelector('input').showPicker()">
+                    <input type="date" 
+                        class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-purple-500 transition cursor-pointer custom-calendar-icon"
+                        style="color-scheme: dark;">
+                </div>
+            </div>
 
-              <div class="flex flex-col">
-                  <label class="text-xs text-gray-400 uppercase mb-1 ml-1">Time</label>
-                  <input type="time" class="bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-purple-500 transition">
-              </div>
+            <div class="flex flex-col relative group">
+                <label class="text-xs text-gray-400 uppercase mb-1 ml-1">Time</label>
+                <div class="relative cursor-pointer" onclick="this.querySelector('input').showPicker()">
+                    <input type="time" 
+                        class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-purple-500 transition cursor-pointer custom-calendar-icon"
+                        style="color-scheme: dark;">
+                </div>
+            </div>
 
               <div class="flex flex-col">
                   <label class="text-xs text-gray-400 uppercase mb-1 ml-1">Number of Guests</label>
