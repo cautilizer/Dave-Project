@@ -1,0 +1,48 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top left, #1a1a2e, #16213e, #0f3460);
+  color: #e0e0e0;
+  min-height: 100vh;
+}
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+}
+.glass-function {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.3s ease;
+}
+.glass-function:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.glass-function:active {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.neon-border-purple { 
+  border: 1px solid #bc13fe; box-shadow: 0 0 10px #bc13fe; 
+}
+
+.neon-text-cyan { 
+  color: #00f2ff; text-shadow: 0 0 5px #00f2ff; 
+}
+
+/* REVENUE PAGE */
+.gradient-text-purple {
+  background: linear-gradient(to right, #c471ed, #f64f59);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+}
