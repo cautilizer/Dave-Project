@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBB CLUB | Revenue Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!--LINK TO CSS-->
+    <link rel="stylesheet" href="./css/index.css">
+    
+</head>
+<body class="p-6 md:p-10">
+
+    <nav class="flex justify-between items-center mb-10">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tighter neon-text-cyan">KBB<span class="text-white">CLUB</span></h1>
+            <p class="text-xs text-gray-400 uppercase tracking-widest">Management Dashboard</p>
+        </div>
+        <div>
+             <span class="text-sm text-gray-400">Shift Manager: </span><span class="font-semibold text-white">Alex D.</span>
+        </div>
+    </nav>
+    <!--BACK BUTTON-->
+    <div class="mb-6">
+        <button onclick="location.href='index.html'" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 transition-all group">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-400 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span class="text-xs font-semibold text-gray-300 uppercase tracking-widest">Back</span>
+        </button>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      
+        <div onclick="toggleModal()" class="glass p-6 cursor-pointer hover:bg-white/5 transition-all border border-transparent hover:border-purple-500/30 group relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="flex justify-between items-start relative z-10">
+                <h3 class="text-gray-400 text-sm mb-2 uppercase tracking-wider">Tonight's Revenue</h3>
+                <span class="text-purple-400 text-xs group-hover:underline">See Breakdown</span>
+            </div>
+            <div class="text-4xl font-bold text-white mb-2 relative z-10">$12,450<span class="text-lg text-gray-500">.00</span></div>
+            <div class="flex items-center text-green-400 text-sm relative z-10">
+                <span>↑ 15.2%</span>
+                <span class="text-gray-500 ml-2">vs last week</span>
+            </div>
+        </div>
+
+        <div class="glass p-6 relative overflow-hidden">
+             <div class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            <h3 class="text-gray-400 text-sm mb-2 uppercase tracking-wider">Guests In-House</h3>
+            <div class="text-4xl font-bold text-white">412 <span class="text-sm text-gray-500">/ 550 cap</span></div>
+        </div>
+        <div class="glass p-6 relative overflow-hidden">
+             <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            <h3 class="text-gray-400 text-sm mb-2 uppercase tracking-wider">VIP Tables</h3>
+            <div class="text-4xl font-bold text-white">18 <span class="text-sm text-gray-500">/ 24 booked</span></div>
+        </div>
+    </div>
+
+
+    <div class="glass p-8">
+        <div class="flex justify-between items-center mb-8">
+             <h2 class="text-2xl font-semibold text-white">Activity & Trends</h2>
+             <span class="text-gray-400 text-sm">Live Data</span>
+        </div>
+       
+
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            
+            <div class="lg:col-span-2 flex flex-col items-center justify-center p-4">
+                <div id="dailySalesRadialChart"></div>
+                <p class="text-gray-400 text-center mt-2">Progress to Nightly Target ($50k)</p>
+            </div>
+
+            <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                
+                <div class="p-4 rounded-2xl bg-white/5">
+                    <h4 class="text-gray-400 text-sm mb-1">Weekly Sales Trend</h4>
+                    <div class="text-2xl font-bold gradient-text-purple">$84,320</div>
+                    <div id="weeklySalesSpark" class="mt-2"></div>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-white/5">
+                    <h4 class="text-gray-400 text-sm mb-1">Active Staff vs Target</h4>
+                    <div class="text-2xl font-bold gradient-text-purple">42 / 50 Staff</div>
+                    <div id="staffingSpark" class="mt-2"></div>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-white/5">
+                    <h4 class="text-gray-400 text-sm mb-1">Clock-In Hourly Flow</h4>
+                    <div class="text-2xl font-bold gradient-text-purple">+12 Last Hour</div>
+                    <div id="clockInSpark" class="mt-2"></div>
+                </div>
+
+                 <div class="p-4 rounded-2xl bg-white/5">
+                    <h4 class="text-gray-400 text-sm mb-1">Hourly Guest Traffic</h4>
+                    <div class="text-2xl font-bold gradient-text-purple">Peaking Now</div>
+                    <div id="trafficSpark" class="mt-2"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="revenueModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay transition-opacity duration-300">
+        <div onclick="event.stopPropagation()" class="glass max-w-lg w-full p-8 shadow-2xl border-white/10 transform transition-all scale-95" id="modalContent">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-white">Revenue Breakdown</h2>
+                <button onclick="toggleModal()" class="text-gray-400 hover:text-white text-2xl outline-none">&times;</button>
+            </div>
+
+            <div class="space-y-3">
+                <div class="flex justify-between items-center p-4 rounded-xl bg-white/5 border border-white/5">
+                    <span class="text-gray-300 font-medium">🍸 Food & Beverage</span>
+                    <span class="font-bold text-white">$8,120.00</span>
+                </div>
+                <div class="flex justify-between items-center p-4 rounded-xl bg-white/5 border border-white/5">
+                    <span class="text-gray-300 font-medium">🛋️ Venue & Table Fees</span>
+                    <span class="font-bold text-white">$2,850.00</span>
+                </div>
+                <div class="flex justify-between items-center p-4 rounded-xl bg-white/5 border border-white/5">
+                    <span class="text-gray-300 font-medium">🤝 Gratuity & Tips</span>
+                    <span class="font-bold text-cyan-400">$1,180.00</span>
+                </div>
+                <div class="flex justify-between items-center p-4 rounded-xl bg-white/5 border border-white/5">
+                    <span class="text-gray-300 font-medium">🧥 Coat Check & Misc.</span>
+                    <span class="font-bold text-white">$300.00</span>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-white/10 flex justify-between items-end">
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-wider">Gross Nightly Total</p>
+                    <p class="text-3xl font-black text-white tracking-tight">$12,450.00</p>
+                </div>
+                <button onclick="toggleModal()" class="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-lg shadow-purple-500/20">Close Details</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Modal Logic ---
+        const modal = document.getElementById('revenueModal');
+        const modalContent = document.getElementById('modalContent');
+
+        function toggleModal() {
+            if (modal.classList.contains('hidden')) {
+                // Open
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modalContent.classList.remove('scale-95');
+                    modalContent.classList.add('scale-100');
+                }, 10);
+            } else {
+                // Close
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 150); // Wait for animation
+            }
+        }
+
+        // Close modal if clicking outside the content box
+        modal.addEventListener('click', function(event) {
+             if (event.target === modal) {
+                 toggleModal();
+             }
+        });
+
+        // --- ApexCharts Configurations ---
+
+        // Common options for the small sparkline charts to match the image style
+        const commonSparklineOptions = {
+            chart: {
+                type: 'line',
+                height: 60,
+                sparkline: { enabled: true }, // This removes axes, grids, etc.
+                background: 'transparent'
+            },
+            stroke: { curve: 'smooth', width: 3 },
+            tooltip: {
+                fixed: { enabled: false },
+                x: { show: false },
+                y: {
+                    title: { formatter: function (seriesName) { return '' } }
+                },
+                marker: { show: false },
+                theme: 'dark'
+            }
+        };
+
+        // 1. The Big Radial Chart (Daily Sales)
+        var radialOptions = {
+            series: [26], // The percentage value (e.g., $12k is ~26% of a $50k target)
+            chart: {
+                height: 280,
+                type: 'radialBar',
+                background: 'transparent',
+            },
+            plotOptions: {
+                radialBar: {
+                    hollow: { size: '65%', background: 'transparent' },
+                    track: { background: 'rgba(255,255,255,0.05)' }, // Faint track background
+                    dataLabels: {
+                        name: { show: true, label: 'Sales Goal', color: '#9ca3af', fontSize: '14px' },
+                        value: {
+                            show: true,
+                            fontSize: '36px',
+                            fontWeight: 'bold',
+                            color: '#ffffff',
+                            formatter: function (val) { return '$12.4k'; } // Displaying the money amount instead of %
+                        }
+                    }
+                }
+            },
+            // The purple/pink gradient fill
+            fill: {
+                type: 'gradient',
+                gradient: {
+                  shade: 'dark',
+                  type: 'horizontal',
+                  shadeIntensity: 0.5,
+                  gradientToColors: ['#f64f59'], // End color (Pink/Red)
+                  inverseColors: true,
+                  opacityFrom: 1,
+                  opacityTo: 1,
+                  stops: [0, 100],
+                  colorStops: [
+                    { offset: 0, color: '#c471ed', opacity: 1 }, // Start color (Purple)
+                    { offset: 100, color: '#f64f59', opacity: 1 } // End color
+                  ]
+                }
+            },
+            stroke: { lineCap: 'round' },
+            labels: ['Progress'],
+        };
+        var radialChart = new ApexCharts(document.querySelector("#dailySalesRadialChart"), radialOptions);
+        radialChart.render();
+
+
+        // 2. Top Left Sparkline: Weekly Sales
+        var weeklySalesOptions = {
+            ...commonSparklineOptions,
+            colors: ['#c471ed'], // Purple color
+            series: [{ data: [4500, 3200, 6100, 5400, 8900, 15200, 12450] }] // 7 days data
+        };
+        new ApexCharts(document.querySelector("#weeklySalesSpark"), weeklySalesOptions).render();
+
+        // 3. Top Right Sparkline: Staffing
+        var staffingOptions = {
+            ...commonSparklineOptions,
+            colors: ['#f64f59'], // Pink/Red color
+            series: [{ data: [48, 50, 49, 50, 50, 45, 42] }] // Staff counts over past days
+        };
+        new ApexCharts(document.querySelector("#staffingSpark"), staffingOptions).render();
+
+        // 4. Bottom Left Sparkline: Clock In Flow
+        var clockInOptions = {
+            ...commonSparklineOptions,
+            colors: ['#c471ed'],
+            series: [{ data: [2, 5, 8, 15, 22, 18, 12] }] // Staff arriving per hour
+        };
+        new ApexCharts(document.querySelector("#clockInSpark"), clockInOptions).render();
+
+        // 5. Bottom Right Sparkline: Traffic
+        var trafficOptions = {
+            ...commonSparklineOptions,
+            colors: ['#f64f59'],
+            series: [{ data: [10, 25, 40, 80, 120, 150, 190] }] // Guest arrivals trend
+        };
+        new ApexCharts(document.querySelector("#trafficSpark"), trafficOptions).render();
+
+    </script>
+
+</body>
+</html>
