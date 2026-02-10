@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Payment | KBB CLUB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+<body class="p-6 md:p-10">
+  <div class="max-w-xl mx-auto">
+    <nav class="flex justify-between items-center mb-6">
+      <h1 class="text-xl font-bold neon-text-cyan">Payment</h1>
+      <div><button onclick="location.href='orders.html'" class="px-3 py-2 bg-white/5 rounded">Back</button></div>
+    </nav>
+
+    <div class="glass p-6">
+      <div id="orderSummary" class="mb-4"></div>
+
+      <h3 class="text-sm text-gray-400 mb-2">Payment Method</h3>
+
+      <div class="space-y-3">
+        <button id="tngBtn" class="w-full px-4 py-3 rounded bg-purple-600 text-white">Touch 'n Go</button>
+        <button id="qrBtn" class="w-full px-4 py-3 rounded bg-white/5">QR Scan (Show QR)</button>
+        <button id="bankBtn" class="w-full px-4 py-3 rounded bg-white/5">Bank Scan / Debit</button>
+      </div>
+
+      <div id="qrArea" class="mt-6 hidden">
+        <p class="text-sm text-gray-400 mb-2">Scan this QR code with a mobile wallet (demo):</p>
+        <div id="qrImage" class="w-48 h-48 bg-white/5 flex items-center justify-center"></div>
+        <div class="mt-4 flex gap-3 justify-end">
+          <button id="qrPaidBtn" class="px-4 py-2 rounded bg-green-600 text-white">Mark as Paid</button>
+          <button id="qrCancel" class="px-4 py-2 rounded bg-white/5">Cancel</button>
+        </div>
+      </div>
+
+      <div id="bankArea" class="mt-6 hidden">
+        <p class="text-sm text-gray-400 mb-2">Enter bank transaction ref (demo):</p>
+        <input id="bankRef" class="w-full bg-white/5 p-2 rounded mb-3" placeholder="e.g. TXN123456" />
+        <div class="flex gap-3 justify-end">
+          <button id="bankPaidBtn" class="px-4 py-2 rounded bg-green-600 text-white">Mark as Paid</button>
+          <button id="bankCancel" class="px-4 py-2 rounded bg-white/5">Cancel</button>
+        </div>
+      </div>
+
+      <div id="tngArea" class="mt-6 hidden">
+        <p class="text-sm text-gray-400 mb-2">Simulating Touch 'n Go flow (demo)...</p>
+        <div class="flex gap-3 justify-end">
+          <button id="tngSimBtn" class="px-4 py-2 rounded bg-green-600 text-white">Simulate Success</button>
+          <button id="tngCancel" class="px-4 py-2 rounded bg-white/5">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./script/auth.js"></script>
+  <script src="./script/payment.js"></script>
+  <script>
+    requireAuth(['staff','mami']);
+    initAuthUI();
+  </script>
+</body>
+</html>

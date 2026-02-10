@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Orders | KBB CLUB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+<body class="p-6 md:p-10">
+  <nav class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-2xl font-bold neon-text-cyan">Orders</h1>
+      <p class="text-sm text-gray-400">Staff order management</p>
+    </div>
+    <div class="flex gap-3">
+      <button onclick="location.href='index.html'" class="px-3 py-2 bg-white/5 hover:bg-white/10 rounded">Back</button>
+      <div id="currentUser" class="text-sm text-gray-300 self-center"></div>
+    </div>
+  </nav>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="md:col-span-2 glass p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Active Orders</h2>
+        <div class="text-sm text-gray-400">You can mark orders served or proceed to payment.</div>
+      </div>
+
+      <div id="ordersList" class="space-y-3">
+        <!-- orders rendered here -->
+      </div>
+    </div>
+
+    <div class="glass p-6">
+      <h3 class="text-lg font-semibold mb-3">Create Order</h3>
+      <form id="createOrderForm" class="space-y-3">
+        <div>
+          <label class="text-xs text-gray-400">Guest / Name</label>
+          <input id="oGuest" class="w-full bg-white/5 p-2 rounded" placeholder="Guest name (optional)" />
+        </div>
+        <div>
+          <label class="text-xs text-gray-400">Table / Seat</label>
+          <input id="oSeat" class="w-full bg-white/5 p-2 rounded" placeholder="Table number or seat" />
+        </div>
+        <div>
+          <label class="text-xs text-gray-400">Items</label>
+          <div id="createItems" class="max-h-48 overflow-auto mt-2"></div>
+        </div>
+        <div class="flex justify-end">
+          <button type="submit" class="px-4 py-2 rounded bg-purple-600 text-white">Create Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="./script/auth.js"></script>
+  <script src="./script/shop.js"></script>
+  <script src="./script/orders.js"></script>
+  <script>
+    // restrict to staff and mami
+    requireAuth(['staff','mami']);
+    initAuthUI();
+  </script>
+</body>
+</html>
