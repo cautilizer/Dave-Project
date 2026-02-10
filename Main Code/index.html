@@ -20,7 +20,8 @@
             <p class="text-xs text-gray-400 uppercase tracking-widest"></p>
         </div>
         <div class="flex gap-4">
-            <button class="glass px-4 py-2 hover:bg-white/10 transition">System Logs</button>
+                <button data-role-visible="management" class="glass px-4 py-2 hover:bg-white/10 transition">System Logs</button>
+                <button data-role-visible="staff,mami" onclick="location.href='orders.html'" class="glass px-4 py-2 hover:bg-white/10 transition">Orders</button>
             <div class="h-10 w-10 rounded-full bg-gradient-to-tr from-purple-500 to-cyan-400 border-2 border-white/20"></div>
         </div>
     </nav>
@@ -79,14 +80,20 @@
                         <p class="font-medium">Sarah Miller</p>
                         <p class="text-xs text-gray-400">Guest List • 4 pax</p>
                     </div>
-                    <button class="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded text-sm hover:bg-cyan-500 hover:text-white">Check-in</button>
+                    <div class="flex gap-2">
+                        <button data-role-action="staff,mami" class="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded text-sm hover:bg-cyan-500 hover:text-white">Check-in</button>
+                        <button data-role-action="staff,mami" onclick="openOrderModal('Sarah Miller')" class="bg-white/5 text-white px-3 py-1 rounded text-sm hover:bg-white/10">Order</button>
+                    </div>
                 </div>
                 <div class="flex justify-between items-center p-3 bg-white/5 rounded-lg border-l-4 border-purple-500">
                     <div>
                         <p class="font-medium">David Chen</p>
                         <p class="text-xs text-gray-400">VIP Table • 6 pax</p>
                     </div>
-                    <button class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded text-sm hover:bg-purple-500 hover:text-white">Check-in</button>
+                    <div class="flex gap-2">
+                        <button data-role-action="staff,mami" class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded text-sm hover:bg-purple-500 hover:text-white">Check-in</button>
+                        <button data-role-action="staff,mami" onclick="openOrderModal('David Chen')" class="bg-white/5 text-white px-3 py-1 rounded text-sm hover:bg-white/10">Order</button>
+                    </div>
                 </div>
                 <div class="flex justify-between items-center p-3 bg-white/5 rounded-lg border-l-4 border-gray-500 opacity-50">
                     <div>
@@ -101,11 +108,19 @@
     </div>
     <!--BUTTON (RESERVATION, PRINT NIGHTLY REPORT)-->
     <div class="fixed bottom-6 left-6 right-6 flex gap-4">
-        <button onclick="toggleReservationModal()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
+        <button data-role-visible="staff,mami,pr,management" onclick="toggleReservationModal()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
             + New Reservation
         </button>
-        
+        <div id="currentUser" class="ml-auto hidden text-sm text-gray-300 self-center"></div>
+        <button id="logoutBtn" onclick="logout()" class="ml-4 px-4 py-2 rounded bg-white/5 hover:bg-white/10 transition text-sm" data-role-visible="staff,mami,pr,management">Logout</button>
     </div>
+
+    <!-- CART FLOATING BUTTON (staff/mami) -->
+    <button id="cartButton" data-role-visible="staff,mami" class="fixed bottom-28 right-8 bg-white/5 hover:bg-white/10 text-white px-4 py-2 rounded-full flex items-center gap-3 shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4"/></svg>
+        <span>Cart</span>
+        <div id="cartBadge" class="ml-2 bg-purple-600 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center"></div>
+    </button>
 
 
     <!--RESERVATION FORM-->
@@ -140,6 +155,39 @@
                         style="color-scheme: dark;">
                 </div>
             </div>
+
+                    <!-- MENU MODAL (add items for a guest) -->
+                    <div id="menuModal" class="hidden fixed inset-0 z-60 flex items-center justify-center p-4 modal-overlay overflow-y-auto">
+                        <div class="glass max-w-xl w-full p-6 my-auto shadow-2xl border-white/10 transform transition-all">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-bold">Menu — <span id="menuGuest">Guest</span></h3>
+                                <button id="menuClose" class="text-gray-400 hover:text-white">&times;</button>
+                            </div>
+                            <div id="menuItems" class="mb-4"></div>
+                            <div class="flex justify-end">
+                                <button onclick="openCartModal()" class="px-4 py-2 rounded bg-purple-600 text-white">View Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CART MODAL -->
+                    <div id="cartModal" class="hidden fixed inset-0 z-70 flex items-center justify-center p-4 modal-overlay overflow-y-auto">
+                        <div class="glass max-w-lg w-full p-6 my-auto shadow-2xl border-white/10 transform transition-all">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-bold">Cart</h3>
+                                <button onclick="closeCartModal()" class="text-gray-400 hover:text-white">&times;</button>
+                            </div>
+                            <div id="cartList" class="mb-4"></div>
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="text-sm text-gray-400">Total</div>
+                                <div id="cartTotal" class="font-bold text-white">$0.00</div>
+                            </div>
+                            <div class="mt-4 flex gap-3 justify-end">
+                                <button onclick="closeCartModal()" class="px-4 py-2 rounded bg-white/5">Close</button>
+                                <button id="payBtn" class="px-4 py-2 rounded bg-green-600 text-white">Proceed to Payment</button>
+                            </div>
+                        </div>
+                    </div>
 
             <div class="flex flex-col relative group">
                 <label class="text-xs text-gray-400 uppercase mb-1 ml-1">Time</label>
@@ -185,8 +233,38 @@
       </div>
   </div>
 
-  <!--LINK TO JAVASCRIPT-->
-  <script src="./script/index.js"></script>
+    <!--LINK TO JAVASCRIPT-->
+    <script src="./script/auth.js"></script>
+    <script src="./script/index.js"></script>
+    <script src="./script/shop.js"></script>
+
+    <script>
+        // Require login to view dashboard
+        requireAuth();
+        // Initialize role-based UI visibility
+        initAuthUI();
+
+        // Simple handler: mark check-in as checked when authorized
+        document.querySelectorAll('[data-role-action]').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                const allowed = (btn.getAttribute('data-role-action') || '').split(',').map(s => s.trim()).filter(Boolean);
+                if (!canPerform(allowed)) {
+                    alert('You do not have permission to perform this action.');
+                    return;
+                }
+                // Simulate check-in: replace button with checked label
+                const parent = btn.closest('.flex');
+                if (!parent) return;
+                const label = document.createElement('span');
+                label.className = 'text-xs text-gray-500 uppercase';
+                label.textContent = 'Checked';
+                btn.replaceWith(label);
+            });
+        });
+
+        // Update UI on storage changes (login/logout in other tabs)
+        window.addEventListener('storage', () => initAuthUI());
+    </script>
 
 </body>
 </html>
