@@ -142,7 +142,11 @@
         </div>
     </div>
 
+    <script src="./script/auth.js"></script>
     <script>
+        // Require only management to view revenue analytics
+        requireAuth(['management']);
+        initAuthUI();
         // --- Modal Logic ---
         const modal = document.getElementById('revenueModal');
         const modalContent = document.getElementById('modalContent');
@@ -173,6 +177,33 @@
         });
 
         // --- ApexCharts Configurations ---
+
+        // Render management order totals from shop (if available)
+        function renderOrdersSummary() {
+            if (typeof shop === 'undefined') return;
+            const summaryEl = document.getElementById('ordersSummary');
+            if (!summaryEl) return;
+            const stats = shop.computeWeeklySales();
+            summaryEl.innerHTML = `
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <p class="text-sm text-gray-400">Orders This Week</p>
+                        <p class="text-2xl font-bold">${stats.count}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-400">Total Sales</p>
+                        <p class="text-2xl font-bold">$${stats.total.toFixed(2)}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Attempt to render when shop is loaded
+        window.addEventListener('DOMContentLoaded', function () {
+            if (typeof shop !== 'undefined') renderOrdersSummary();
+            // also update when new orders are created
+            window.addEventListener('ncs_order_created', renderOrdersSummary);
+        });
 
         // Common options for the small sparkline charts to match the image style
         const commonSparklineOptions = {
